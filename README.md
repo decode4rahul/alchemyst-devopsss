@@ -14,7 +14,7 @@
 
 ## 🧬 Architecture
 
-\```
+```
                                Internet
                                   │
                                   ▼
@@ -44,7 +44,7 @@
 │   └──────────────────────────────────────────────────┘      │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-\```
+```
 
 ---
 
@@ -56,46 +56,46 @@
 - Git installed
 
 ### 1. Clone & configure
-\```bash
+```bash
 git clone https://github.com/decode4rahul/alchemyst-devops.git
 cd alchemyst-devops
-\```
+```
 
 ### 2. Set AWS credentials
-\```bash
+```bash
 export AWS_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXX
 export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 export AWS_DEFAULT_REGION=ap-south-1
-\```
+```
 
 ### 3. Provision the infrastructure
-\```bash
+```bash
 terraform init
 terraform apply -auto-approve
-\```
+```
 *Wait ~10 minutes for user‑data scripts to install Node.js, Python, the `iii` engine, and all dependencies.*
 
 ### 4. Start the smoke test server on the Caller VM
-\```bash
+```bash
 ssh -i devops-key ubuntu@<gateway-public-ip>
 ssh -i /home/ubuntu/devops-key ubuntu@<caller-private-ip>
 node /home/ubuntu/mock-worker.js &
-\```
+```
 
 ### 5. Test the endpoint
-\```bash
+```bash
 curl -X POST http://<gateway-public-ip>/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"messages":[{"role":"user","content":"What is DevOps?"}]}'
-\```
+```
 
 **Sample response:**
-\```json
+```json
 {
   "result": "Model answer to: \"What is DevOps?\" — DevOps is a set of practices combining software development and IT operations to shorten the development lifecycle.",
   "success": "Multi-tier architecture validated: Gateway → Caller → Inference."
 }
-\```
+```
 
 ---
 
@@ -165,19 +165,19 @@ Port 22 is open for debugging. Before production, SSH would be restricted to a b
 
 ## 📂 Repository Structure
 
-\```
+```
 alchemyst-devops/
 ├── main.tf              # Complete Terraform IaC
 ├── devops-key.pub       # Public SSH key
 ├── README.md            # This file
 └── screenshot.png       # Live test evidence
-\```
+```
 
 ---
 
 ## 🧪 How to Run Tests
 
-\```bash
+```bash
 GATEWAY_IP="<GATEWAY_PUBLIC_IP>"
 
 # 1. Quick health check (Nginx is up)
@@ -193,7 +193,7 @@ curl -X POST http://$GATEWAY_IP/v1/chat/completions \
 # 3. Verify iii engine is running (SSH into caller)
 ss -tlnp | grep 49134
 # Expected: LISTEN on 0.0.0.0:49134
-\```
+```
 
 ---
 
